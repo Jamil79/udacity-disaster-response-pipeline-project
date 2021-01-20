@@ -230,7 +230,26 @@ def evaluate_pipeline(pipeline, X_test, Y_test, category_names):
     for column in Y_test.columns:
         print('Model Performance with Category: {}'.format(column))
         print(classification_report(Y_test[column],Y_pred[column]))
+        
+#improving model
+X_train, X_test, y_train, y_test = train_test_split(X, y)
+pipeline_fitted = pipeline.fit(X_train, y_train)
 
+y_prediction_train = pipeline_fitted.predict(X_train)
+y_prediction_test = pipeline_fitted.predict(X_test)
+
+# pipeline1.get_params().keys()
+parameters_grid = {'classifier__estimator__learning_rate': [0.01, 0.02, 0.05],
+              'classifier__estimator__n_estimators': [10, 20, 40]}
+
+#parameters_grid = {'classifier__estimator__n_estimators': [10, 20, 40]}
+
+cv = GridSearchCV(pipeline1, param_grid=parameters_grid, scoring='f1_micro', n_jobs=-1)
+cv.fit(X_train, y_train)
+
+# Get the prediction values from the grid search cross validator
+y_prediction_test = cv.predict(X_test)
+y_prediction_train = cv.predict(X_train)
 
 def save_model_as_pickle(pipeline, pickle_filepath):
     """
