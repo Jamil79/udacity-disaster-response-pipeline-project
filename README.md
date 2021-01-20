@@ -20,4 +20,12 @@ models/train_classifier.py: A machine learning pipeline that loads data, trains 
 
 run.py: This file can be used to launch the Flask web app used to classify disaster messages
 
+command:
+run:
+process_data.py than
+train_classifier.py than
+run.py
+env|grep WORK
+https://SPACEID-3001.SPACEDOMAIN
+
 Lcense I hereby put at the disposal of everyone the use of this program for free
